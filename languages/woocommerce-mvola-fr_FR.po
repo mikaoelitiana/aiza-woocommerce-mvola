@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce MVola Madagascar\n"
+"Report-Msgid-Bugs-To: https://github.com/mikaoelitiana/aiza-woocommerce-mvola\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-31\n"
+"PO-Revision-Date: 2025-10-31\n"
+"X-Domain: woocommerce-mvola\n"
+
+#: includes/class-wc-gateway-mvola.php:22
+msgid "MVola Madagascar"
+msgstr "MVola Madagascar"
+
+#: includes/class-wc-gateway-mvola.php:23
+msgid "Accept payments via MVola mobile money"
+msgstr "Acceptez les paiements via MVola mobile money"
+
+#: includes/class-wc-gateway-mvola.php:47
+msgid "Enable/Disable"
+msgstr "Activer/Désactiver"
+
+#: includes/class-wc-gateway-mvola.php:49
+msgid "Enable MVola payment"
+msgstr "Activer le paiement MVola"
+
+#: includes/class-wc-gateway-mvola.php:53
+msgid "Title"
+msgstr "Titre"
+
+#: includes/class-wc-gateway-mvola.php:55
+msgid "This controls the title which the user sees during checkout."
+msgstr "Ceci contrôle le titre que l'utilisateur voit lors du paiement."
+
+#: includes/class-wc-gateway-mvola.php:56 assets/js/blocks-checkout.js:13
+msgid "MVola"
+msgstr "MVola"
+
+#: includes/class-wc-gateway-mvola.php:60
+msgid "Description"
+msgstr "Description"
+
+#: includes/class-wc-gateway-mvola.php:62
+msgid "This controls the description which the user sees during checkout."
+msgstr "Ceci contrôle la description que l'utilisateur voit lors du paiement."
+
+#: includes/class-wc-gateway-mvola.php:63 assets/js/blocks-checkout.js:54
+msgid "Pay securely using MVola mobile money."
+msgstr "Payez en toute sécurité avec MVola mobile money."
+
+#: includes/class-wc-gateway-mvola.php:66
+msgid "Test mode"
+msgstr "Mode test"
+
+#: includes/class-wc-gateway-mvola.php:68
+msgid "Enable Sandbox Mode"
+msgstr "Activer le mode Sandbox"
+
+#: includes/class-wc-gateway-mvola.php:70
+msgid "Use the sandbox environment for testing. No real money will be used."
+msgstr "Utilisez l'environnement sandbox pour les tests. Aucun argent réel ne sera utilisé."
+
+#: includes/class-wc-gateway-mvola.php:73
+msgid "Consumer Key"
+msgstr "Clé consommateur"
+
+#: includes/class-wc-gateway-mvola.php:75
+msgid "Get your consumer key from MVola developer portal."
+msgstr "Obtenez votre clé consommateur sur le portail développeur MVola."
+
+#: includes/class-wc-gateway-mvola.php:80
+msgid "Secret Key"
+msgstr "Clé secrète"
+
+#: includes/class-wc-gateway-mvola.php:82
+msgid "Get your secret key from MVola developer portal."
+msgstr "Obtenez votre clé secrète sur le portail développeur MVola."
+
+#: includes/class-wc-gateway-mvola.php:87
+msgid "Merchant Phone Number"
+msgstr "Numéro de téléphone du marchand"
+
+#: includes/class-wc-gateway-mvola.php:89
+msgid "Your MVola merchant account phone number (receiver)."
+msgstr "Le numéro de téléphone de votre compte marchand MVola (récepteur)."
+
+#: includes/class-wc-gateway-mvola.php:94
+msgid "Custom Callback URL"
+msgstr "URL de rappel personnalisée"
+
+#: includes/class-wc-gateway-mvola.php:97
+msgid "Optional: Override the default callback URL. Leave empty to use: %s<br>For local development, use ngrok or similar service to make your callback publicly accessible."
+msgstr "Optionnel : Remplacez l'URL de rappel par défaut. Laissez vide pour utiliser : %s<br>Pour le développement local, utilisez ngrok ou un service similaire pour rendre votre callback accessible publiquement."
+
+#: includes/class-wc-gateway-mvola.php:113 assets/js/blocks-checkout.js:60
+msgid "Your MVola Phone Number"
+msgstr "Votre numéro MVola"
+
+#: includes/class-wc-gateway-mvola.php:115 assets/js/blocks-checkout.js:80
+msgid "Enter your MVola account phone number"
+msgstr "Entrez le numéro de votre compte MVola"
+
+#: includes/class-wc-gateway-mvola.php:123
+msgid "MVola phone number is required."
+msgstr "Le numéro MVola est requis."
+
+#: includes/class-wc-gateway-mvola.php:131 assets/js/blocks-checkout.js:32 assets/js/blocks-checkout.js:35
+msgid "Please enter a valid MVola phone number."
+msgstr "Veuillez entrer un numéro MVola valide."
+
+#: assets/js/blocks-checkout.js:32
+msgid "Please enter a valid MVola phone number (at least 10 digits)."
+msgstr "Veuillez entrer un numéro MVola valide (au moins 10 chiffres)."
+
+#: includes/class-wc-gateway-mvola.php:207
+msgid "Payment error: Could not authenticate with MVola."
+msgstr "Erreur de paiement : Impossible de s'authentifier avec MVola."
+
+#: includes/class-wc-gateway-mvola.php:269 includes/class-wc-gateway-mvola.php:308
+msgid "Payment error: "
+msgstr "Erreur de paiement : "
+
+#: includes/class-wc-gateway-mvola.php:293
+msgid "Awaiting MVola payment confirmation. Please check your phone."
+msgstr "En attente de la confirmation du paiement MVola. Veuillez vérifier votre téléphone."
+
+#: includes/class-wc-gateway-mvola.php:295
+msgid "MVola payment initiated. Transaction ID: %s. Customer will receive a push notification on their phone."
+msgstr "Paiement MVola initié. ID de transaction : %s. Le client recevra une notification push sur son téléphone."
+
+#: includes/class-wc-gateway-mvola.php:307
+msgid "Could not initiate payment."
+msgstr "Impossible d'initier le paiement."
+
+#: includes/class-wc-gateway-mvola.php:384
+msgid "MVola payment completed. Transaction ID: %s"
+msgstr "Paiement MVola complété. ID de transaction : %s"
+
+#: includes/class-wc-gateway-mvola.php:397
+msgid "MVola payment failed or was cancelled"
+msgstr "Le paiement MVola a échoué ou a été annulé"
+
+#: woocommerce-mvola.php:66
+msgid "Settings"
+msgstr "Paramètres"
+
+#: woocommerce-mvola.php:75
+msgid "This plugin requires WooCommerce to be installed and active."
+msgstr "Ce plugin nécessite que WooCommerce soit installé et activé."
