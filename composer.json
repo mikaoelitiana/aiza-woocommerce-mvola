@@ -1,0 +1,44 @@
+{
+    "name": "mikaoelitiana/woocommerce-mvola",
+    "description": "MVola Madagascar payment gateway for WooCommerce",
+    "type": "wordpress-plugin",
+    "keywords": [
+        "wordpress",
+        "woocommerce",
+        "payment-gateway",
+        "mvola",
+        "madagascar",
+        "mobile-money"
+    ],
+    "homepage": "https://github.com/mikaoelitiana/aiza-woocommerce-mvola",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Mika Andrianarijaona",
+            "email": "mikaoelitiana@users.noreply.github.com",
+            "homepage": "https://github.com/mikaoelitiana",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mikaoelitiana/aiza-woocommerce-mvola/issues",
+        "source": "https://github.com/mikaoelitiana/aiza-woocommerce-mvola"
+    },
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "wp-coding-standards/wpcs": "^2.3"
+    },
+    "autoload": {
+        "classmap": [
+            "includes/"
+        ]
+    },
+    "extra": {
+        "installer-name": "woocommerce-mvola"
+    },
+    "minimum-stability": "stable"
+}
