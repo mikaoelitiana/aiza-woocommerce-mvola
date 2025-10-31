@@ -48,6 +48,21 @@ add_action('before_woocommerce_init', function() {
     }
 });
 
+add_action('init', function() {
+    wp_register_script(
+        'wc-mvola-blocks',
+        WC_MVOLA_PLUGIN_URL . 'assets/js/blocks-checkout.js',
+        ['wc-blocks-registry', 'wp-element', 'wp-i18n', 'wp-html-entities'],
+        WC_MVOLA_VERSION,
+        true
+    );
+    wp_set_script_translations(
+        'wc-mvola-blocks',
+        'woocommerce-mvola',
+        WC_MVOLA_PLUGIN_PATH . 'languages'
+    );
+});
+
 add_action('woocommerce_blocks_loaded', function() {
     if (!class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')) {
         return;

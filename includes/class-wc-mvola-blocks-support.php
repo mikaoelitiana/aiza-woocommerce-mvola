@@ -15,21 +15,7 @@ final class WC_MVola_Blocks_Support extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_script_handles() {
-        wp_register_script(
-            'wc-mvola-blocks',
-            WC_MVOLA_PLUGIN_URL . 'assets/js/blocks-checkout.js',
-            ['wc-blocks-registry', 'wp-element', 'wp-i18n', 'wp-html-entities'],
-            WC_MVOLA_VERSION,
-            true
-        );
-
-        // Load JS translations for blocks
-        wp_set_script_translations(
-            'wc-mvola-blocks',
-            'woocommerce-mvola',
-            WC_MVOLA_PLUGIN_PATH . 'languages'
-        );
-
+        // The script is registered and translations loaded via the init hook in the main plugin file.
         return ['wc-mvola-blocks'];
     }
 
