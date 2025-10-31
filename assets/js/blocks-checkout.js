@@ -46,7 +46,7 @@
             });
             
             return unsubscribe;
-        }, [onPaymentSetup, phoneNumber, emitResponse]);
+        }, [onPaymentSetup, emitResponse]);
         
         const description = props.description || __('Pay securely using MVola mobile money.', 'woocommerce-mvola');
         
