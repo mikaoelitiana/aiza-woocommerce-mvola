@@ -23,6 +23,13 @@ final class WC_MVola_Blocks_Support extends AbstractPaymentMethodType {
             true
         );
 
+        // Load JS translations for blocks
+        wp_set_script_translations(
+            'wc-mvola-blocks',
+            'woocommerce-mvola',
+            WC_MVOLA_PLUGIN_PATH . 'languages'
+        );
+
         return ['wc-mvola-blocks'];
     }
 
