@@ -5,7 +5,7 @@
     const { createElement } = window.wp.element;
     const { __ } = window.wp.i18n;
     const { decodeEntities } = window.wp.htmlEntities;
-    const { useState, useEffect } = window.wp.element;
+     const { useState, useEffect, useRef } = window.wp.element;
 
     const Label = (props) => {
         const { PaymentMethodLabel } = props.components;
@@ -19,13 +19,16 @@
         const { onPaymentSetup } = eventRegistration;
         const [phoneNumber, setPhoneNumber] = useState('');
         const [validationError, setValidationError] = useState('');
+        const phoneNumberRef = useRef(phoneNumber);
+        phoneNumberRef.current = phoneNumber;
         
         useEffect(() => {
             const unsubscribe = onPaymentSetup(async () => {
                 // Validate phone number
-                const cleanPhone = phoneNumber.replace(/[^0-9]/g, '');
+                const currentPhone = phoneNumberRef.current;
+                const cleanPhone = currentPhone.replace(/[^0-9]/g, '');
                 
-                if (!phoneNumber || cleanPhone.length < 10) {
+                if (!currentPhone || cleanPhone.length < 10) {
                     setValidationError(__('Please enter a valid MVola phone number (at least 10 digits).', 'woocommerce-mvola'));
                     return {
                         type: emitResponse.responseTypes.ERROR,
@@ -39,14 +42,14 @@
                     type: emitResponse.responseTypes.SUCCESS,
                     meta: {
                         paymentMethodData: {
-                            mvola_phone_number: phoneNumber,
+                            mvola_phone_number: currentPhone,
                         },
                     },
                 };
             });
             
             return unsubscribe;
-        }, [onPaymentSetup, emitResponse]);
+        }, []);
         
         const description = props.description || __('Pay securely using MVola mobile money.', 'woocommerce-mvola');
         
