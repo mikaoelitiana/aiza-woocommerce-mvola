@@ -305,7 +305,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
 
         $this->log('Transaction response: ' . print_r($body, true));
 
-        if ($response_code === 201 && isset($body['serverCorrelationId'])) {
+        if (($response_code === 201 || $response_code === 202) && isset($body['serverCorrelationId'])) {
             global $wpdb;
             $table_name = $wpdb->prefix . 'wc_mvola_transactions';
             
