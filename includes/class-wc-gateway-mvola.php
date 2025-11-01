@@ -406,7 +406,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
         $status_body = json_decode(wp_remote_retrieve_body($status_response), true);
         $this->log('Callback: Status response: ' . print_r($status_body, true));
 
-        if (isset($status_body['status']) && strtolower($status_body['status']) === 'success') {
+        if (isset($status_body['status']) && strtolower($status_body['status']) === 'completed') {
             $wpdb->update(
                 $table_name,
                 array('status' => 'completed'),
@@ -421,7 +421,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
 
             status_header(200);
             exit('Payment confirmed');
-        } else {
+        } elseif (isset($status_body['status']) && strtolower($status_body['status']) === 'failed') {
             $wpdb->update(
                 $table_name,
                 array('status' => 'failed'),
