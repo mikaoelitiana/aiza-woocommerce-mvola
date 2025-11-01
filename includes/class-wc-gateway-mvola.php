@@ -312,6 +312,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                 array(
                     'order_id' => $order_id,
                     'server_correlation_id' => $body['serverCorrelationId'],
+                    'correlation_id' => $headers['X-CorrelationID'],
                     'reference' => $reference,
                     'user_account_identifier' => $phone,
                     'status' => 'pending',

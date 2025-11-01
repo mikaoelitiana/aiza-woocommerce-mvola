@@ -99,6 +99,7 @@ function wc_mvola_activate() {
         id bigint(20) NOT NULL AUTO_INCREMENT,
         order_id bigint(20) NOT NULL,
         server_correlation_id varchar(190) NOT NULL,
+        correlation_id varchar(64) NOT NULL,
         reference varchar(190) NOT NULL,
         user_account_identifier varchar(20),
         status varchar(50),
