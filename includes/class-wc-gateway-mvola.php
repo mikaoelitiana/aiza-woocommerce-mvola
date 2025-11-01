@@ -262,10 +262,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                     'key' => (string) 'partnerName',
                     'value' => (string) (!empty($this->partner_name) ? $this->partner_name : 'WooCommerce')
                 ),
-                array(
-                    'key' => (string) 'callbackUrl',
-                    'value' => (string) $callback_url
-                ),
+
                 array(
                     'key' => (string) 'fc',
                     'value' => (string) 'USD'
@@ -289,6 +286,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                 'Cache-Control' => 'no-cache',
                 'Version' => '1.0',
                 'X-CorrelationID' => $this->generate_correlation_id(),
+                'X-Callback-URL' => $callback_url,
             ),
             'body' => json_encode($transaction_data),
             'timeout' => 30,
