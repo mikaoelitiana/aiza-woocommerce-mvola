@@ -276,6 +276,8 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
             'originalTransactionReference' => (string) $order->get_order_number()
         );
 
+        $correlation_id = $this->generate_correlation_id();
+
         $response = wp_remote_post($this->get_api_base_url() . '/mvola/mm/transactions/type/merchantpay/1.0.0/', array(
             'headers' => array(
                 'Authorization' => 'Bearer ' . $access_token,
@@ -285,7 +287,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                 'partnerName' => !empty($this->partner_name) ? $this->partner_name : 'WooCommerce',
                 'Cache-Control' => 'no-cache',
                 'Version' => '1.0',
-                'X-CorrelationID' => $this->generate_correlation_id(),
+                'X-CorrelationID' => $correlation_id,
                 'X-Callback-URL' => $callback_url,
             ),
             'body' => json_encode($transaction_data),
@@ -312,7 +314,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                 array(
                     'order_id' => $order_id,
                     'server_correlation_id' => $body['serverCorrelationId'],
-                    'correlation_id' => $headers['X-CorrelationID'],
+                    'correlation_id' => $correlation_id,
                     'reference' => $reference,
                     'user_account_identifier' => $phone,
                     'status' => 'pending',
