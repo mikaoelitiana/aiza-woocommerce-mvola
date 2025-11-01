@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 class WC_Gateway_MVola extends WC_Payment_Gateway {
 
-    const API_BASE_URL_SANDBOX = 'https://pre-aapi.mvola.mg';
+    const API_BASE_URL_SANDBOX = 'https://pre-api.mvola.mg';
     const API_BASE_URL_PRODUCTION = 'https://api.mvola.mg';
     
     public $testmode;
@@ -14,6 +14,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
     public $secret_key;
     public $merchant_number;
     public $callback_url;
+    public $partner_name;
     
     public function __construct() {
         $this->id = 'mvola';
@@ -36,6 +37,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
         $this->secret_key = $this->get_option('secret_key');
         $this->merchant_number = $this->get_option('merchant_number');
         $this->callback_url = $this->get_option('callback_url');
+        $this->partner_name = $this->get_option('partner_name');
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('woocommerce_api_wc_gateway_mvola', array($this, 'handle_callback'));
@@ -43,6 +45,13 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
 
     public function init_form_fields() {
         $this->form_fields = array(
+            'partner_name' => array(
+                'title' => __('Partner Name', 'woocommerce-mvola'),
+                'type' => 'text',
+                'description' => __('Name of your business/partner for MVola API header.', 'woocommerce-mvola'),
+                'default' => 'WooCommerce',
+                'desc_tip' => true,
+            ),
             'enabled' => array(
                 'title' => __('Enable/Disable', 'woocommerce-mvola'),
                 'type' => 'checkbox',
@@ -199,6 +208,11 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
         return false;
     }
 
+    private function generate_correlation_id() {
+        // Use uniqid with more entropy for uniqueness
+        return uniqid('wc_mvola_', true);
+    }
+
     public function process_payment($order_id) {
         $order = wc_get_order($order_id);
         $access_token = $this->get_access_token();
@@ -210,9 +224,16 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
 
         $phone = sanitize_text_field($_POST['mvola_phone_number']);
         $phone = preg_replace('/[^0-9]/', '', $phone);
-        
-        if (!preg_match('/^34/', $phone)) {
+        // Normalize to international format
+        if (preg_match('/^26134[0-9]{7}$/', $phone)) {
+            // Already correct
+        } elseif (preg_match('/^034[0-9]{7}$/', $phone)) {
+            $phone = '261' . substr($phone, 1); // Replace 0 with 261
+        } elseif (preg_match('/^34[0-9]{7}$/', $phone)) {
             $phone = '261' . $phone;
+        } else {
+            wc_add_notice(__('Please enter a valid MVola phone number (034xxxxxxx or 26134xxxxxxx).', 'woocommerce-mvola'), 'error');
+            return array('result' => 'fail');
         }
 
         $reference = 'WC-' . $order_id . '-' . wp_generate_password(10, false);
@@ -222,43 +243,52 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
         $transaction_data = array(
             'amount' => (string) $order->get_total(),
             'currency' => 'Ar',
-            'descriptionText' => 'Order #' . $order->get_order_number(),
-            'requestDate' => gmdate('Y-m-d\TH:i:s.000\Z'),
+            'descriptionText' => (string) ('Order-' . $order->get_order_number()),
+            'requestDate' => (string) gmdate('Y-m-d\TH:i:s.000\Z'),
             'debitParty' => array(
                 array(
-                    'key' => 'msisdn',
-                    'value' => $phone
+                    'key' => (string) 'msisdn',
+                    'value' => (string) $phone
                 )
             ),
             'creditParty' => array(
                 array(
-                    'key' => 'msisdn',
-                    'value' => $this->merchant_number
+                    'key' => (string) 'msisdn',
+                    'value' => (string) $this->merchant_number
                 )
             ),
             'metadata' => array(
                 array(
-                    'key' => 'partnerName',
-                    'value' => 'WooCommerce'
+                    'key' => (string) 'partnerName',
+                    'value' => (string) (!empty($this->partner_name) ? $this->partner_name : 'WooCommerce')
                 ),
                 array(
-                    'key' => 'callbackUrl',
-                    'value' => $callback_url
+                    'key' => (string) 'callbackUrl',
+                    'value' => (string) $callback_url
+                ),
+                array(
+                    'key' => (string) 'fc',
+                    'value' => (string) 'USD'
+                ),
+                array(
+                    'key' => (string) 'amountFc',
+                    'value' => (string) '1'
                 )
             ),
-            'requestingOrganisationTransactionReference' => $reference,
-            'originalTransactionReference' => $order->get_order_number()
+            'requestingOrganisationTransactionReference' => (string) $reference,
+            'originalTransactionReference' => (string) $order->get_order_number()
         );
 
         $response = wp_remote_post($this->get_api_base_url() . '/mvola/mm/transactions/type/merchantpay/1.0.0/', array(
             'headers' => array(
                 'Authorization' => 'Bearer ' . $access_token,
                 'Content-Type' => 'application/json',
-                'UserLanguage' => 'FR',
-                'UserAccountIdentifier' => 'msisdn;' . $phone,
-                'PartnerName' => 'WooCommerce',
+                'UserLanguage' => 'mg',
+                'UserAccountIdentifier' => 'msisdn;' . $this->merchant_number,
+                'partnerName' => !empty($this->partner_name) ? $this->partner_name : 'WooCommerce',
                 'Cache-Control' => 'no-cache',
                 'Version' => '1.0',
+                'X-CorrelationID' => $this->generate_correlation_id(),
             ),
             'body' => json_encode($transaction_data),
             'timeout' => 30,
