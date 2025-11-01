@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 class WC_Gateway_MVola extends WC_Payment_Gateway {
 
-    const API_BASE_URL_SANDBOX = 'https://devapi.mvola.mg';
+    const API_BASE_URL_SANDBOX = 'https://pre-aapi.mvola.mg';
     const API_BASE_URL_PRODUCTION = 'https://api.mvola.mg';
     
     public $testmode;
