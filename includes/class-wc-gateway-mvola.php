@@ -377,6 +377,8 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
             exit('Authentication error');
         }
 
+        // Query correlation_id using server_correlation_id
+        $correlation_id = $transaction->correlation_id;
         $status_response = wp_remote_get(
             $this->get_api_base_url() . '/mvola/mm/transactions/type/merchantpay/1.0.0/status/' . $transaction->server_correlation_id,
             array(
@@ -387,6 +389,7 @@ class WC_Gateway_MVola extends WC_Payment_Gateway {
                     'PartnerName' => 'WooCommerce',
                     'Cache-Control' => 'no-cache',
                     'Version' => '1.0',
+                    'X-CorrelationID' => $correlation_id,
                 ),
                 'timeout' => 30,
             )
